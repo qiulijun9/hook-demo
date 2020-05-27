@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>React App</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!-- <input id="num" name="num" type="text" />
+    <button onclick="calculate()">计算</button><br />
+    <div id="result" style="color: red;"></div>
+    <div id="time" style="color: red;"></div> -->
+
+    <script type="text/javascript" src="work.js"></script>
+    <!-- <script type="text/javascript">
+        var worker = new Worker("work.js");
+        var data1 =0;
+        var data2 =0;
+        worker.postMessage("hello");
+        worker.onmessage = function(event){
+                var data = event.data;
+                data2 = new Date().getTime();
+                document.getElementById("result").innerHTML ="计算结果："+data;
+                document.getElementById("time").innerHTML ="workers 耗时："+ (data2 - data1)+"ms";
+
+                console.log(111,data)
+            };
+         function calculate(){
+            data1 = new Date().getTime();
+            var num = document.getElementById("num").value;
+            var val = parseInt(num,10);
+            worker.postMessage(val);
+        }
+    </script>  -->
+  </body>
+</html>
