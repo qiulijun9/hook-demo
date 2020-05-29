@@ -3,7 +3,7 @@ import { Context } from './Parent'
 import GrandChildren from './GrandChildren'
 
 function Child(props) {
-  const { data, user, age, setAge } = props
+  const { data, setAge } = props
   console.log('执行子组件。。。。', data)
   function changeAge() {
     setAge(23)
@@ -11,7 +11,7 @@ function Child(props) {
 
   //useContext
   const { count, name } = useContext(Context)
-  // console.log('context的值', count, name)
+  console.log('context的值', count, name)
   return (
     <>
       <div>我是子组件 {data}</div>

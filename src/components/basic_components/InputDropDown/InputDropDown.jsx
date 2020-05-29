@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 
+import './InputDropDown.css'
 InputDropDown.defaultProps = {
   visible: false,
   menu: [],
@@ -15,15 +16,22 @@ InputDropDown.defaultProps = {
 function InputDropDown(props) {
   useEffect(() => {
     const handleKeydown = e => {
+      // 兼容ie
       const event = e || window.event
       const key = event.which || event.keyCode || event.charCode
+
+      const { menuKeyDown } = props
       if (key === 40) {
         //pagedown
-        props.menuKeyDown('pageDown')
+        menuKeyDown('pageDown')
       }
       if (key === 38) {
         //pageup
-        props.menuKeyDown('pageUp')
+        menuKeyDown('pageUp')
+      }
+      if (key === 13) {
+        //enter
+        menuKeyDown('enter')
       }
     }
     document.addEventListener('keydown', handleKeydown)
@@ -33,37 +41,16 @@ function InputDropDown(props) {
   }, [props])
 
   return (
-    <div
-      tabIndex="0"
-      style={{
-        position: 'relative',
-      }}
-      // onBlur={props.menuClick(null)}
-    >
+    <div tabIndex="0" className="menu-container" onBlur={props.menuClick}>
       {props.visible && (
-        <ul
-          style={{
-            position: 'absolute',
-            width: '200px',
-            margin: 0,
-            padding: 0,
-            listStyle: 'none',
-            top: '100%',
-            left: 0,
-          }}
-        >
+        <ul className="menu-root">
           {props.menu.map(({ value, index }) => (
             <li
-              onClick={() => props.menuClick({ value, index })}
-              onMouseOver={() => props.menuMouseOver(index)}
+              onMouseDown={e => props.menuClick({ value, index })}
               key={value}
-              className="menu-item"
-              style={{
-                width: '100%',
-                height: '3rem',
-                background: props.checkedIndex === index ? 'red' : '#eee',
-                cursor: 'pointer',
-              }}
+              className={`menu-item ${
+                index === props.checkedIndex && 'menu-item-checked'
+              }`}
             >
               {value}
             </li>

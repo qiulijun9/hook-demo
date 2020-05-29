@@ -38,7 +38,7 @@ function useTimeout<T extends any[]>(
     [clear, delay],
   )
 
-  useEffect(() => clear(), [])
+  useEffect(() => clear(), [clear])
 
   return { run, runNow, clear }
 }

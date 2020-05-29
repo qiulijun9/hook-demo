@@ -8,7 +8,7 @@ import {
   Search,
 } from './components/index'
 import './App.css'
-import Parent from './components/basic_components/example/Parent'
+import Parent from './components/example/hooks-demo/Parent'
 
 function App() {
   return (

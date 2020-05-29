@@ -10,7 +10,7 @@ import Child from './Child'
 
 //创建一个Context
 export const Context = createContext(0)
-const user = { age: '20', name: 'zcool' }
+// const user = { age: '20', name: 'zcool' }
 
 function Parent() {
   const [count, setCount] = useState(0)
@@ -32,6 +32,7 @@ function Parent() {
   //useEffect
   useEffect(() => {
     console.log('age', age)
+    setName('cool')
     // console.log('ref2', divRef.current)
   }, [age])
   // console.log('ref', divRef.current)
