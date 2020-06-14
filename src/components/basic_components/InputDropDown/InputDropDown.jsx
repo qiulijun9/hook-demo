@@ -28,6 +28,7 @@ function InputDropDown(props) {
       if (key === 38) {
         //pageup
         menuKeyDown('pageUp')
+        event.preventDefault()
       }
       if (key === 13) {
         //enter
@@ -47,6 +48,7 @@ function InputDropDown(props) {
           {props.menu.map(({ value, index }) => (
             <li
               onMouseDown={e => props.menuClick({ value, index })}
+              onMouseOver={() => props.menuMouseOver(index)}
               key={value}
               className={`menu-item ${
                 index === props.checkedIndex && 'menu-item-checked'

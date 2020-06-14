@@ -1,5 +1,5 @@
 import React from 'react'
-import { useVirtualized } from '../../custom_hooks/index'
+import { useVirtualized } from '../../../custom_hooks/index'
 
 const items = Array.from(Array(100000)).map((_, index) => {
   return {

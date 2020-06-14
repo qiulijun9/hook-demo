@@ -6,6 +6,7 @@ import {
   EffectDemo,
   ReducerDemo,
   Search,
+  listDemo,
 } from './components/index'
 import './App.css'
 import Parent from './components/example/hooks-demo/Parent'
@@ -20,6 +21,7 @@ function App() {
         <Route path="/reducerDemo" component={ReducerDemo} />
         <Route path="/search" component={Search} />
         <Route path="/demo" component={Parent} />
+        <Route path="/list" component={listDemo} />
       </Switch>
     </HashRouter>
   )

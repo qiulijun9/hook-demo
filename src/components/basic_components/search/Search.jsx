@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import useDebounce from '../../../custom_hooks/useDebounce/useDebounce'
 import InputDropDown from '../InputDropDown/InputDropDown'
+import Table from './table'
 
 const mokeData = {
-  '1': ['1', '11', '111', '1111'],
-  '2': ['2', '22', '222', '2222'],
-  '3': ['3', '33', '333', '3333'],
-  '4': ['4', '44', '444', '4444'],
+  '1': ['11', '111', '1111', '11111'],
+  '2': ['22', '222', '2222', '22222'],
+  '3': ['33', '333', '3333', '33333'],
+  '4': ['44', '444', '4444', '44444'],
 }
 
 function Search() {
   const [menu, setMenu] = useState([])
   const [menuVisible, setMenuVisible] = useState(false)
   const [menuChecked, setMenuChecked] = useState('')
-  const [keyDownType, setkeyDownType] = useState('')
-  const [checkedIndex, setCheckedIndex] = useState(0)
+  const [checkedIndex, setCheckedIndex] = useState(-1)
+  const [initKeyword, setInitKeyword] = useState('')
   const { run } = useDebounce(val => getData(val), 1000)
 
   const menuCallback = obj => {
@@ -27,26 +28,37 @@ function Search() {
   }
 
   const menuKeyDownCallback = value => {
-    let nextIndex = 0
+    let nextIndex = -1
     if (value === 'pageDown') {
-      nextIndex = checkedIndex === menu.length - 1 ? 0 : checkedIndex + 1
+      nextIndex = checkedIndex === menu.length - 1 ? -1 : checkedIndex + 1
       setCheckedIndex(nextIndex)
-      setkeyDownType('pageDown')
+      // setkeyDownType('pageDown')
     }
     if (value === 'pageUp') {
-      nextIndex = checkedIndex > 0 ? checkedIndex - 1 : menu.length - 1
+      nextIndex = checkedIndex >= 0 ? checkedIndex - 1 : menu.length - 1
       setCheckedIndex(nextIndex)
-      setkeyDownType('pageUp')
+      // setkeyDownType('pageUp')
+    }
+    if (nextIndex === -1) {
+      setMenuChecked(initKeyword)
+    } else {
+      setMenuChecked(menu[nextIndex].value)
     }
   }
 
   function handleChange(e) {
     const val = e.target.value
     console.log(val)
-    run(val)
+
     setMenuChecked(val)
     setMenuVisible(true)
-
+    setInitKeyword(val)
+    //清空上次搜索的列表
+    setMenu([])
+    //有值的时候再去请求
+    if (val) {
+      run(val)
+    }
     if (!val) {
       setMenuVisible(false)
     }
@@ -62,17 +74,41 @@ function Search() {
     }
     setMenu(result)
   }
+  const tdData = [
+    {
+      value: [
+        '以往累计收入总和',
+        '分成比例',
+        '分成计算方法',
+        '分成比例',
+        '分成计算方法',
+        '分成比例',
+        '分成计算方法',
+      ],
+    },
+    {
+      rowspan: '3',
+      rowspanIndex: [3, 4, 5, 6],
+      value: [
+        '0元 ~ 4999元',
+        '25%',
+        '图片单价 * 25%',
+        '40%',
+        '图片单价×40%',
+        '50%',
+        '经收入50%',
+      ],
+    },
+    {
+      rowspan: '0',
+      value: ['5000元 ~ 19999元', '30%', '图片单价 * 30%'],
+    },
+    {
+      rowspan: '0',
+      value: ['20000元以上', '35%', '图片单价 * 35%'],
+    },
+  ]
 
-  useEffect(() => {
-    if (!menu.length) return
-
-    if (
-      (menuVisible && keyDownType === 'pageDown') ||
-      keyDownType === 'pageUp'
-    ) {
-      setMenuChecked(menu[checkedIndex].value)
-    }
-  }, [keyDownType, checkedIndex, menu, menuVisible])
   return (
     <>
       <div
@@ -88,6 +124,7 @@ function Search() {
           checked={menuChecked}
           checkedIndex={checkedIndex}
           menuClick={menuCallback}
+          // menuMouseOver={menuMouseOverCallback}
           menuKeyDown={menuKeyDownCallback}
         >
           <input
@@ -99,8 +136,15 @@ function Search() {
             onFocus={() => setMenuVisible(true)}
           />
         </InputDropDown>
+        <Table></Table>
       </div>
     </>
   )
 }
 export default Search
+
+/**
+ * 注意
+ * 如果再次请求的时候可以取消上次的请求
+ *
+ */
