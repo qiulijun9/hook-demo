@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import useDebounce from '../../../custom_hooks/useDebounce/useDebounce'
 import InputDropDown from '../InputDropDown/InputDropDown'
-import Table from './table'
 
 const mokeData = {
   '1': ['11', '111', '1111', '11111'],
@@ -24,7 +23,6 @@ function Search() {
     setMenuVisible(false)
     //解决上下移动的问题
     setCheckedIndex(0)
-    setMenu([])
   }
 
   const menuKeyDownCallback = value => {
@@ -32,13 +30,18 @@ function Search() {
     if (value === 'pageDown') {
       nextIndex = checkedIndex === menu.length - 1 ? -1 : checkedIndex + 1
       setCheckedIndex(nextIndex)
-      // setkeyDownType('pageDown')
     }
     if (value === 'pageUp') {
       nextIndex = checkedIndex >= 0 ? checkedIndex - 1 : menu.length - 1
       setCheckedIndex(nextIndex)
-      // setkeyDownType('pageUp')
     }
+    if (value === 'enter') {
+      nextIndex = checkedIndex
+      setCheckedIndex(nextIndex)
+      setMenu([])
+      setMenuVisible(false)
+    }
+    console.log(111, nextIndex)
     if (nextIndex === -1) {
       setMenuChecked(initKeyword)
     } else {
@@ -48,7 +51,6 @@ function Search() {
 
   function handleChange(e) {
     const val = e.target.value
-    console.log(val)
 
     setMenuChecked(val)
     setMenuVisible(true)
@@ -61,6 +63,7 @@ function Search() {
     }
     if (!val) {
       setMenuVisible(false)
+      setMenu([])
     }
   }
 
@@ -74,40 +77,10 @@ function Search() {
     }
     setMenu(result)
   }
-  const tdData = [
-    {
-      value: [
-        '以往累计收入总和',
-        '分成比例',
-        '分成计算方法',
-        '分成比例',
-        '分成计算方法',
-        '分成比例',
-        '分成计算方法',
-      ],
-    },
-    {
-      rowspan: '3',
-      rowspanIndex: [3, 4, 5, 6],
-      value: [
-        '0元 ~ 4999元',
-        '25%',
-        '图片单价 * 25%',
-        '40%',
-        '图片单价×40%',
-        '50%',
-        '经收入50%',
-      ],
-    },
-    {
-      rowspan: '0',
-      value: ['5000元 ~ 19999元', '30%', '图片单价 * 30%'],
-    },
-    {
-      rowspan: '0',
-      value: ['20000元以上', '35%', '图片单价 * 35%'],
-    },
-  ]
+
+  function menuMouseOverCallback(index) {
+    setCheckedIndex(index)
+  }
 
   return (
     <>
@@ -124,7 +97,7 @@ function Search() {
           checked={menuChecked}
           checkedIndex={checkedIndex}
           menuClick={menuCallback}
-          // menuMouseOver={menuMouseOverCallback}
+          menuMouseOver={menuMouseOverCallback}
           menuKeyDown={menuKeyDownCallback}
         >
           <input
@@ -132,11 +105,12 @@ function Search() {
             type="text"
             value={menuChecked}
             onKeyDown={e => e.stopPropagation()}
-            onChange={e => handleChange(e)}
-            onFocus={() => setMenuVisible(true)}
+            onChange={event => handleChange(event)}
+            onFocus={() => {
+              setMenuVisible(true)
+            }}
           />
         </InputDropDown>
-        <Table></Table>
       </div>
     </>
   )
@@ -145,6 +119,10 @@ export default Search
 
 /**
  * 注意
- * 如果再次请求的时候可以取消上次的请求
- *
+ * 1.如果再次请求的时候可以取消上次的请求
+ * 2.添加防抖
+ * 3.上下键移动的光标的情况，
+ * 4.浏览器前进后退的联想内容展现不一致的情况 监听路径变化,清除menu
+ * 5.按下键移动到最后一个联想词是在往下应该显示刚开始的搜索词。
+ * 6.对数据的清除和索引的判断情况
  */

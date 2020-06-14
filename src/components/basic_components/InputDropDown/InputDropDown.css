@@ -1,27 +1,29 @@
+body {
+  background-color: #eee;
+}
 .menu-container {
   position: relative;
   width: 300px;
-  height: 40px;
   justify-self: center;
 }
 
 .menu-root {
   position: absolute;
+  top: 50px;
+  left: 0;
   width: 300px;
-  height: 50px;
   margin: 0;
   padding: 0;
   list-style: none;
-  top: 50px;
-  left: 0;
 }
 .menu-item {
   width: 100%;
   height: 3rem;
+  line-height: 3rem;
   cursor: pointer;
   background-color: #fff;
   transition: background-color 0.2s;
 }
 .menu-item-checked {
-  background-color: #eee;
+  background-color: rgb(95, 90, 90);
 }

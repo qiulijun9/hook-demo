@@ -19,8 +19,11 @@ function InputDropDown(props) {
       // 兼容ie
       const event = e || window.event
       const key = event.which || event.keyCode || event.charCode
+      const { menuKeyDown, visible } = props
 
-      const { menuKeyDown } = props
+      if (!visible) {
+        return
+      }
       if (key === 40) {
         //pagedown
         menuKeyDown('pageDown')
