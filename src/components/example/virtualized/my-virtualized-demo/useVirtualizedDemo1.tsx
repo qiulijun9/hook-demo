@@ -1,5 +1,5 @@
 import React from 'react'
-import { useVirtualized } from '../../../custom_hooks/index'
+import { useVirtualized } from '../../../../custom_hooks/index'
 
 const items = Array.from(Array(100000)).map((_, index) => {
   return {
@@ -41,11 +41,12 @@ function useVirtualizedDemo1() {
         margin: '0 auto',
         overflow: 'auto',
         background: '#eee',
+        border: '1px solid black',
       }}
     >
       <div {...wrapperProps}>
         {list.map(item => (
-          <div style={{ height: 50 }} key={item.id}>
+          <div style={{ height: 50, border: '1px solid black' }} key={item.id}>
             编号: {item.id}
           </div>
         ))}

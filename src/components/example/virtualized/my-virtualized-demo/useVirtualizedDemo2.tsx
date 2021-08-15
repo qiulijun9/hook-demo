@@ -1,5 +1,5 @@
 import React from 'react'
-import { useVirtualized } from '../../../custom_hooks/index'
+import { useVirtualized } from '../../../../custom_hooks/index'
 
 const items = Array.from(Array(100000)).map((_, index) => {
   return {
@@ -9,7 +9,9 @@ const items = Array.from(Array(100000)).map((_, index) => {
 })
 
 const computeIndexHeight = (index: number) => {
-  return index % 3 === 0 ? 25 : index % 2 === 0 ? 50 : 70
+  return (
+    (index % 3 === 0 ? 25 : index % 2 === 0 ? 50 : 70) + Math.random() * 100
+  )
 }
 
 function useVirtualizedDemo2() {
@@ -29,6 +31,7 @@ function useVirtualizedDemo2() {
         margin: '0 auto',
         overflow: 'auto',
         background: '#eee',
+        border: '1px solid black',
       }}
     >
       <div {...wrapperProps}>
@@ -38,11 +41,11 @@ function useVirtualizedDemo2() {
                 style={{
                   height: computeIndexHeight(item.id),
                   boxSizing: 'border-box',
+                  border: '1px solid black',
                 }}
                 key={item.id}
               >
-                滚动时展示的内容(用于限制个数后每一项渲染仍耗费大量资源的情况):{' '}
-                {item.id}
+                scrolling....
               </div>
             ))
           : list.map(item => (
@@ -50,6 +53,7 @@ function useVirtualizedDemo2() {
                 style={{
                   height: computeIndexHeight(item.id),
                   boxSizing: 'border-box',
+                  border: '1px solid black',
                 }}
                 key={item.id}
               >
