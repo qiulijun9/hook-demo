@@ -45,15 +45,16 @@ function useVirtualized<T = any>(items: Array<T>, options: Options): RV<T> {
         },
         [0],
       )
-    } else {
-      paddingTopCache = items.reduce(
-        (result, _, index) => {
-          result.push(result[index] + itemHeight(index))
-          return result
-        },
-        [0],
-      )
-    }
+     } 
+    //  else {
+    //   paddingTopCache = items.reduce(
+    //     (result, _, index) => {
+    //       result.push(result[index] + itemHeight(index))
+    //       return result
+    //     },
+    //     [0],
+    //   )
+    // }
     setPaddingTopCache(paddingTopCache)
   }, [items, itemHeight])
 
